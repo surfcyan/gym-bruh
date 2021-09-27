@@ -1,3 +1,7 @@
+import 'package:flutter/widgets.dart';
+import 'package:gym_bruh/screens/exercises/exercises.dart';
+import 'package:gym_bruh/screens/proglog/proglog.dart';
+
 List home_categories = [
   {
     'title': 'Progression Log',
@@ -58,5 +62,16 @@ class HomeLogic {
       return 'Leg & Shoulder';
     else
       return 'Rest';
+  }
+
+  Widget getComponent(type) {
+    print(type);
+    if (type == 0) {
+      return ProgLog();
+    } else if (type == 1) {
+      return Exercises();
+    } else {
+      return ProgLog();
+    }
   }
 }

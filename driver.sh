@@ -5,6 +5,7 @@ while getopts ":c:" opt; do
         c)
             echo "-a was triggered, Parameter: $OPTARG" >&2
             echo "creating component.." >&2
+            mkdir "lib/screens/$OPTARG"
             touch "lib/screens/$OPTARG/$OPTARG.dart"
             touch "lib/screens/$OPTARG/$OPTARG-logic.dart"
             echo "Done!" >&2

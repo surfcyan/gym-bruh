@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_bruh/constants.dart';
+import 'package:gym_bruh/screens/exercises/exercises.dart';
 import 'package:gym_bruh/screens/home/home-logic.dart';
 import 'package:gym_bruh/screens/proglog/proglog.dart';
 
@@ -36,7 +37,8 @@ class _Home extends State<Home> {
                 fontSize: 18, color: LblackColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 24),
-          for (var category in home_categories)
+          // for (var category in home_categories)
+          for (int i = 0; i < home_categories.length; i++)
             GestureDetector(
               child: Card(
                 semanticContainer: true,
@@ -44,7 +46,7 @@ class _Home extends State<Home> {
                 child: Stack(
                   children: [
                     Image.network(
-                      category['bg_img'],
+                      home_categories[i]['bg_img'],
                       fit: BoxFit.fill,
                     ),
                     Container(
@@ -53,7 +55,7 @@ class _Home extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            category['title'],
+                            home_categories[i]['title'],
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
@@ -70,7 +72,7 @@ class _Home extends State<Home> {
                 elevation: 5,
               ),
               onTap: () {
-                Navigator.of(context).push(_progLogRoute());
+                Navigator.of(context).push(routeNext(i));
               },
             )
         ],
@@ -81,6 +83,16 @@ class _Home extends State<Home> {
   Route _progLogRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const ProgLog(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return child;
+      },
+    );
+  }
+
+  Route routeNext(type) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          homeLogic.getComponent(type),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return child;
       },
