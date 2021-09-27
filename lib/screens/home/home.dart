@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_bruh/constants.dart';
-import 'package:gym_bruh/screens/home/home-consts.dart';
 import 'package:gym_bruh/screens/home/home-logic.dart';
 import 'package:gym_bruh/screens/proglog/proglog.dart';
 
