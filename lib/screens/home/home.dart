@@ -72,7 +72,10 @@ class _Home extends State<Home> {
                 elevation: 5,
               ),
               onTap: () {
-                Navigator.of(context).push(routeNext(i));
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => homeLogic.getComponent(i)));
               },
             )
         ],
@@ -80,22 +83,13 @@ class _Home extends State<Home> {
     );
   }
 
-  Route _progLogRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const ProgLog(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return child;
-      },
-    );
-  }
-
-  Route routeNext(type) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          homeLogic.getComponent(type),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return child;
-      },
-    );
-  }
+  // Route routeNext(type) {
+  //   return PageRouteBuilder(
+  //     pageBuilder: (context, animation, secondaryAnimation) =>
+  //         homeLogic.getComponent(type),
+  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+  //       return child;
+  //     },
+  //   );
+  // }
 }

@@ -65,7 +65,6 @@ class HomeLogic {
   }
 
   Widget getComponent(type) {
-    print(type);
     if (type == 0) {
       return ProgLog();
     } else if (type == 1) {
