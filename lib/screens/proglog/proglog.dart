@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gym_bruh/screens/proglog/addExercise/addExercise.dart';
+import 'package:gym_bruh/screens/proglog/logInfo/logInfo.dart';
 import 'package:gym_bruh/screens/proglog/proglog-logic.dart';
 import 'package:simple_moment/simple_moment.dart';
 
@@ -97,27 +99,42 @@ class _ProgLog extends State<ProgLog> {
                               ),
                               // White button
                               Align(
-                                alignment: Alignment.topLeft,
-                                child: Container(
-                                  height: 150,
-                                  width: 150,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey,
-                                          spreadRadius: 1,
-                                          blurRadius: 24),
-                                    ],
-                                  ),
-                                  child: Icon(
-                                    Icons.add_outlined,
-                                    color: Colors.grey,
-                                    size: 80,
-                                  ),
-                                ),
-                              ),
+                                  alignment: Alignment.topLeft,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      print('object');
+                                      // open Bottom sheet
+                                      showModalBottomSheet<void>(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(24.0),
+                                          ),
+                                          backgroundColor: Colors.white,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AddExercise();
+                                          });
+                                    },
+                                    child: Container(
+                                      height: 150,
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.grey,
+                                              spreadRadius: 1,
+                                              blurRadius: 24),
+                                        ],
+                                      ),
+                                      child: Icon(
+                                        Icons.add_outlined,
+                                        color: Colors.grey,
+                                        size: 80,
+                                      ),
+                                    ),
+                                  )),
                             ],
                           )),
                     ],
@@ -126,13 +143,19 @@ class _ProgLog extends State<ProgLog> {
               ),
               // Past Logs List
               for (var each in _progLogLogic.getList())
-                Container(
-                  padding: EdgeInsets.fromLTRB(24, 18, 24, 18),
-                  child: Text(
-                    each['title'],
-                    style: TextStyle(fontSize: 24),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => LogInfo()));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(24, 18, 24, 18),
+                    child: Text(
+                      each['title'],
+                      style: TextStyle(fontSize: 24),
+                    ),
                   ),
-                ),
+                )
             ])),
           ],
         ),

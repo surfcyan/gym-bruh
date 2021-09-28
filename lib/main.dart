@@ -13,9 +13,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CupertinoApp(
+    return const MaterialApp(
       title: _title,
-      home: MyStatefulWidget(),
+      home: Scaffold(
+        body: MyStatefulWidget(),
+      ),
     );
   }
 }
