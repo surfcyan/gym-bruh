@@ -2,8 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_bruh/constants.dart';
 import 'package:gym_bruh/screens/home/home.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(const MyApp());
+// void main() => runApp(const MyApp());
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  // if (USE_FIRESTORE_EMULATOR) {
+  //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  // }
+  runApp(const MyApp());
+}
 
 /// This is the main application widget.
 class MyApp extends StatelessWidget {
