@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_bruh/services/firebase.dart';
 
 class AddExercise extends StatefulWidget {
   const AddExercise({Key? key}) : super(key: key);
@@ -45,6 +46,8 @@ class _AddExerciseState extends State<AddExercise> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
                     }
+                    print('works');
+                    addData();
                     return null;
                   },
                 ),
