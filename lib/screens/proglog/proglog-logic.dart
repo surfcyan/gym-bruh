@@ -16,6 +16,7 @@ class ProgLogLogic {
   }
 
   fetchLogs() async {
+    logList = [];
     FireBaseService fBs = new FireBaseService();
     logList = await fBs.getProglogDataSnapshot();
   }

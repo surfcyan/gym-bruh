@@ -128,7 +128,7 @@ class _ProgLog extends State<ProgLog> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AddExercise();
-                                          });
+                                          }).then((value) => {run()});
                                     },
                                     child: Container(
                                       height: 150,
