@@ -41,15 +41,16 @@ class FireBaseService {
   // }
 
   Future getProglogDataSnapshot() async {
-    final completer = Completer();
-    // final stream = progLogCollectionReference.doc().snapshots().listen((data) {
-    //   completer.complete(data);
-    // });
-    var data = [];
-    await progLogCollectionReference.doc().snapshots().forEach((element) {
-      data.add(element);
-    });
-    completer.complete(data);
-    return completer.future;
+    var querySnapshot = await progLogCollectionReference.get();
+    List data = [];
+    for (var queryDocumentSnapshot in querySnapshot.docs) {
+      data.add(queryDocumentSnapshot.data());
+    }
+    return data;
+  }
+
+  Future postPogLogData(var dataJson) async {
+    var querySnapshot = await progLogCollectionReference.add(dataJson);
+    return querySnapshot;
   }
 }

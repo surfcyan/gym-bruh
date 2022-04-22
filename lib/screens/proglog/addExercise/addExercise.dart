@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_bruh/screens/proglog/addExercise/addExercise-logic.dart';
 import 'package:gym_bruh/services/firebase.dart';
 
 class AddExercise extends StatefulWidget {
@@ -12,18 +13,20 @@ class AddExercise extends StatefulWidget {
 class _AddExerciseState extends State<AddExercise> {
   // Form Key
   final _formKey = GlobalKey<FormState>();
+  // Add Exercise Logic
+  AddExerciseLogic _addExerciseLogic = new AddExerciseLogic();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    run();
+    // run();
   }
 
-  run() async {
-    FireBaseService fBs = new FireBaseService();
-    print(await fBs.getProglogDataSnapshot());
-  }
+  // run() async {
+  //   FireBaseService fBs = new FireBaseService();
+  //   print(await fBs.postPogLogData());
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +62,8 @@ class _AddExerciseState extends State<AddExercise> {
                       return 'Please enter some text';
                     }
                     print('works');
-                    // addData();
+                    _addExerciseLogic.addNewLog(value, context);
+
                     return null;
                   },
                 ),

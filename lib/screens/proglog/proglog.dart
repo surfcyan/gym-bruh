@@ -20,6 +20,21 @@ class _ProgLog extends State<ProgLog> {
   ProgLogLogic _progLogLogic = new ProgLogLogic();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    run();
+  }
+
+  run() async {
+    await _progLogLogic.fetchLogs();
+    setState(() {
+      // await _progLogLogic.fetchLogs();
+      print(_progLogLogic.logList);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
@@ -142,7 +157,7 @@ class _ProgLog extends State<ProgLog> {
                 ),
               ),
               // Past Logs List
-              for (var each in _progLogLogic.getList())
+              for (var each in _progLogLogic.logList)
                 GestureDetector(
                   onTap: () {
                     Navigator.push(context,
@@ -151,7 +166,7 @@ class _ProgLog extends State<ProgLog> {
                   child: Container(
                     padding: EdgeInsets.fromLTRB(24, 18, 24, 18),
                     child: Text(
-                      each['title'],
+                      each['Name'],
                       style: TextStyle(fontSize: 24),
                     ),
                   ),
