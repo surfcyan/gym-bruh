@@ -160,13 +160,18 @@ class _ProgLog extends State<ProgLog> {
               for (var each in _progLogLogic.logList)
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) => LogInfo()));
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => LogInfo(
+                                  exercise: each['data']['Name'],
+                                  fireId: each['id'],
+                                )));
                   },
                   child: Container(
                     padding: EdgeInsets.fromLTRB(24, 18, 24, 18),
                     child: Text(
-                      each['Name'],
+                      each['data']['Name'],
                       style: TextStyle(fontSize: 24),
                     ),
                   ),

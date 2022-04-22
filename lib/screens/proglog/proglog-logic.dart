@@ -3,21 +3,10 @@ import 'package:gym_bruh/services/firebase.dart';
 
 class ProgLogLogic {
   List logList = [];
-
-  getList() {
-    return [
-      {'title': 'Chest Press'},
-      {'title': 'Sholder Press'},
-      {'title': 'Dumbell Press'},
-      {'title': 'Chest Press'},
-      {'title': 'Sholder Press'},
-      {'title': 'Dumbell Press'},
-    ];
-  }
+  FireBaseService fBs = new FireBaseService();
 
   fetchLogs() async {
     logList = [];
-    FireBaseService fBs = new FireBaseService();
     logList = await fBs.getProglogDataSnapshot();
   }
 }

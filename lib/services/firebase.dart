@@ -26,7 +26,10 @@ class FireBaseService {
     var querySnapshot = await progLogCollectionReference.get();
     List data = [];
     for (var queryDocumentSnapshot in querySnapshot.docs) {
-      data.add(queryDocumentSnapshot.data());
+      data.add({
+        'id': queryDocumentSnapshot.id,
+        'data': queryDocumentSnapshot.data()
+      });
     }
     return data;
   }
@@ -34,5 +37,18 @@ class FireBaseService {
   Future postPogLogData(var dataJson) async {
     var querySnapshot = await progLogCollectionReference.add(dataJson);
     return querySnapshot;
+  }
+
+  Future<List> getExerciseLogSnapshot(String id) async {
+    var querySnapshot =
+        await progLogCollectionReference.doc(id).collection('logs').get();
+    List data = [];
+    for (var queryDocumentSnapshot in querySnapshot.docs) {
+      data.add({
+        'id': queryDocumentSnapshot.id,
+        'data': queryDocumentSnapshot.data()
+      });
+    }
+    return data;
   }
 }
