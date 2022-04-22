@@ -14,6 +14,18 @@ class _AddExerciseState extends State<AddExercise> {
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    run();
+  }
+
+  run() async {
+    FireBaseService fBs = new FireBaseService();
+    print(await fBs.getProglogDataSnapshot());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(24),
@@ -47,7 +59,7 @@ class _AddExerciseState extends State<AddExercise> {
                       return 'Please enter some text';
                     }
                     print('works');
-                    addData();
+                    // addData();
                     return null;
                   },
                 ),
