@@ -9,4 +9,11 @@ class ProgLogLogic {
     logList = [];
     logList = await fBs.getProglogDataSnapshot();
   }
+
+  Future deleteExercise(String id) async {
+    await fBs.deleteExercise(id).then((value) {
+      return true;
+    });
+    return false;
+  }
 }

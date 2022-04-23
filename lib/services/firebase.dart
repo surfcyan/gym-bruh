@@ -71,4 +71,9 @@ class FireBaseService {
     });
     return querySnapshot;
   }
+
+  Future deleteExercise(String id) async {
+    var querySnapshot = await progLogCollectionReference.doc(id).delete();
+    return querySnapshot;
+  }
 }
