@@ -51,4 +51,24 @@ class FireBaseService {
     }
     return data;
   }
+
+  Future postExerciseLogData(var dataJson, String exerciseId) async {
+    var querySnapshot = await progLogCollectionReference
+        .doc(exerciseId)
+        .collection('logs')
+        .add(dataJson);
+    // var querySnapshot = await progLogCollectionReference.add(dataJson);
+    return querySnapshot;
+  }
+
+  Future appendExerciseSet(String exerciseId, String todayId, int reps) async {
+    var querySnapshot = await progLogCollectionReference
+        .doc(exerciseId)
+        .collection('logs')
+        .doc(todayId)
+        .update({
+      'rps': FieldValue.arrayUnion([reps])
+    });
+    return querySnapshot;
+  }
 }

@@ -49,13 +49,14 @@ class _LogInfoState extends State<LogInfo> {
             Expanded(
               flex: 8,
               child: Container(
-                color: Colors.red,
+                color: Colors.grey,
               ),
             ),
             Expanded(
               flex: 2,
               child: Container(
-                color: primaryBgColor,
+                padding: EdgeInsets.all(6),
+                // color: primaryBgColor,
                 child: Row(
                   children: [
                     Expanded(child: Container()),
@@ -85,7 +86,9 @@ class _LogInfoState extends State<LogInfo> {
                                 backgroundColor: Colors.white,
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return LogSet();
+                                  return LogSet(
+                                      exerciseId: widget.fireId,
+                                      todayId: _logInfoLogic.todayId);
                                 }).then((value) {
                               setState(() {
                                 _logInfoLogic.value += 1;
