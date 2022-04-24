@@ -16,6 +16,9 @@ class LogInfoLogic {
   List<ExerciseData> exerciseData = [];
 
   getExerciseData(String id) async {
+    seriesList = [];
+    pastData = [];
+    exerciseData = [];
     pastData = await fBs.getExerciseLogSnapshot(id);
     for (var item in pastData) {
       var fetchedDate =
@@ -24,19 +27,20 @@ class LogInfoLogic {
       if (fetchedDate.day == today.day &&
           fetchedDate.month == today.month &&
           fetchedDate.year == today.year) {
-        print('It is today');
+        // print('It is today');
         // Set today Id
         todayId = item['id'];
       } else {
         // Create new document for today
-        print('not today');
+        // print('not today');
       }
     }
     if (todayId == '') {
       var dataJson = {
         'rps': [],
         'timestamp': new DateTime.now(),
-        'unit': 'nos'
+        'unit': 'nos',
+        'weight': []
       };
       await fBs.postExerciseLogData(dataJson, id);
       getExerciseData(id);
@@ -46,7 +50,7 @@ class LogInfoLogic {
             item['data']['rps'],
             item['data']['timestamp'],
             item['data']['unit'],
-            [10.0, 8.1, 6.1, 10.0, 8.1, 6.1]));
+            item['data']['weight']));
       }
       seriesList = generateGraph(exerciseData[exerciseData.length - 1]);
     }
@@ -55,10 +59,10 @@ class LogInfoLogic {
 
   generateGraph(ExerciseData data) {
     value = data.reps.length.toDouble();
-    print(data.reps);
     List<RepsData> repsData = [];
     for (var i = 0; i < data.reps.length; i++) {
-      repsData.add(RepsData(data.reps[i], (i + 1).toString(), data.weight[i]));
+      repsData.add(RepsData(data.reps[i], (i + 1).toString(),
+          double.parse(data.weight[i].toString())));
     }
     seriesList = [
       charts.Series<RepsData, String>(
@@ -71,7 +75,6 @@ class LogInfoLogic {
   }
 
   getDateText(DateTime time) {
-    print(time);
     return time.day.toString() +
         ' ' +
         getMonth(time.month) +

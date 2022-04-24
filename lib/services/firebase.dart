@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gym_bruh/screens/proglog/logInfo/logSet/logSet-logic.dart';
 
 // addData() {
 //   Map<String, dynamic> demoData = {'Name': 'Kartik'};
@@ -61,19 +62,27 @@ class FireBaseService {
     return querySnapshot;
   }
 
-  Future appendExerciseSet(String exerciseId, String todayId, int reps) async {
+  Future appendExerciseSet(
+      String exerciseId, String todayId, SetObject setObject) async {
     var querySnapshot = await progLogCollectionReference
         .doc(exerciseId)
         .collection('logs')
-        .doc(todayId)
-        .update({
-      'rps': FieldValue.arrayUnion([reps])
-    });
+        .doc(todayId);
+    print('object');
+    var existingDataObj = await querySnapshot.get();
+    var data = existingDataObj.data();
+    List rps = data?['rps'];
+    rps.add(setObject.reps);
+    List weight = data?['weight'];
+    weight.add(setObject.weight);
+    var obj = {'rps': rps, 'unit': setObject.unit, 'weight': weight};
+    await querySnapshot.update(obj);
     return querySnapshot;
   }
 
   Future deleteExercise(String id) async {
-    var querySnapshot = await progLogCollectionReference.doc(id).delete();
+    var querySnapshot = await progLogCollectionReference.doc(id);
+    querySnapshot.delete();
     return querySnapshot;
   }
 }

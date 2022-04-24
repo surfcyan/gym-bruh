@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_bruh/constants.dart';
 import 'package:gym_bruh/screens/proglog/logInfo/logSet/logSet-logic.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:flutter_number_picker/flutter_number_picker.dart';
 
 class LogSet extends StatefulWidget {
   final String exerciseId;
@@ -16,9 +17,11 @@ class LogSet extends StatefulWidget {
 
 class _LogSetState extends State<LogSet> {
 //
-  int _currentValue = 0;
+  int repsCount = 0;
   // Object of LogSet Logic
   LogSetLogic _LogSetLogic = new LogSetLogic();
+  //
+  double weight = 0;
 
   @override
   void initState() {
@@ -48,10 +51,21 @@ class _LogSetState extends State<LogSet> {
           SizedBox(height: 36),
           NumberPicker(
             axis: Axis.horizontal,
-            value: _currentValue,
+            value: repsCount,
             minValue: 0,
             maxValue: 100,
-            onChanged: (value) => setState(() => _currentValue = value),
+            onChanged: (value) => setState(() => repsCount = value),
+          ),
+          CustomNumberPicker(
+            initialValue: 0,
+            maxValue: 1000,
+            minValue: 0,
+            step: 0.25,
+            onValue: (value) {
+              // print(value.toString());
+              weight = double.parse(value.toString());
+            },
+            valueTextStyle: TextStyle(fontSize: 24),
           ),
           Expanded(child: Container()),
           ElevatedButton(
@@ -63,8 +77,8 @@ class _LogSetState extends State<LogSet> {
                 shape: StadiumBorder(),
                 padding: EdgeInsets.fromLTRB(0, 12, 0, 12)),
             onPressed: () {
-              _LogSetLogic.logSet(
-                  widget.exerciseId, widget.todayId, _currentValue, context);
+              _LogSetLogic.logSet(widget.exerciseId, widget.todayId, repsCount,
+                  weight, context);
             },
             child: Icon(
               Icons.arrow_forward_ios,

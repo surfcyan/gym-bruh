@@ -203,6 +203,16 @@ class _ProgLog extends State<ProgLog> {
                         ),
                       ),
                     ),
+                  // placeholder
+                  Container(
+                    width: w,
+                    // color: Colors.red,
+                    padding: EdgeInsets.fromLTRB(24, 18, 24, 18),
+                    child: Text(
+                      '',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ),
                 ],
               ),
             ),
