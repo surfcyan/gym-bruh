@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gym_bruh/constants.dart';
 import 'package:gym_bruh/screens/proglog/logInfo/logInfo-logic.dart';
 import 'package:gym_bruh/screens/proglog/logInfo/logSet/logSet.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class LogInfo extends StatefulWidget {
   final String exercise;
@@ -26,12 +28,20 @@ class _LogInfoState extends State<LogInfo> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.fireId);
-    _logInfoLogic.getExerciseData(widget.fireId);
+    run();
+  }
+
+  run() async {
+    await _logInfoLogic.getExerciseData(widget.fireId);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+//
+    final controller =
+        PageController(initialPage: _logInfoLogic.exerciseData.length - 1);
+    //
     return CupertinoPageScaffold(
       backgroundColor: Colors.white,
       navigationBar: CupertinoNavigationBar(
@@ -49,7 +59,76 @@ class _LogInfoState extends State<LogInfo> {
             Expanded(
               flex: 8,
               child: Container(
-                color: Colors.grey,
+                child: PageView(
+                  controller: controller,
+                  onPageChanged: (value) {
+                    // print(value);
+                    setState(() {
+                      _logInfoLogic
+                          .generateGraph(_logInfoLogic.exerciseData[value]);
+                    });
+                  },
+                  children: [
+                    for (var item in _logInfoLogic.exerciseData)
+                      Container(
+                        // color: Colors.red,
+                        child: Column(
+                          children: [
+                            Text(
+                              _logInfoLogic.getDateText(DateTime.parse(
+                                  item.timestamp.toDate().toString())),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 24),
+                              textAlign: TextAlign.left,
+                            ),
+                            Expanded(
+                                child: Container(
+                              child: charts.BarChart(
+                                _logInfoLogic
+                                    .seriesList, // Set a bar label decorator.
+                                defaultRenderer: new charts.BarRendererConfig(
+                                    cornerStrategy:
+                                        const charts.ConstCornerStrategy(30)),
+                                animate: true,
+                                vertical: true,
+                              ),
+                            ))
+                            // Container(
+                            //   color: Colors.red,
+                            //   child: charts.BarChart(
+                            //     _logInfoLogic
+                            //         .seriesList, // Set a bar label decorator.
+                            //     defaultRenderer: new charts.BarRendererConfig(
+                            //         cornerStrategy:
+                            //             const charts.ConstCornerStrategy(30)),
+                            //     animate: true,
+                            //     vertical: true,
+                            //   ),
+                            // )
+                          ],
+                        ),
+                      )
+                    // Column(
+                    //   children: [
+                    //     // Text(
+                    //     //     DateTime.parse(item.timestamp.toDate().toString())
+                    //     //         .day
+                    //     //         .toString()),
+                    //     charts.BarChart(
+                    //       _logInfoLogic
+                    //           .seriesList, // Set a bar label decorator.
+                    //       defaultRenderer: new charts.BarRendererConfig(
+                    //           cornerStrategy:
+                    //               const charts.ConstCornerStrategy(30)),
+                    //       animate: true,
+                    //       vertical: true,
+                    //     ),
+                    //   ],
+                    // ),
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -60,21 +139,6 @@ class _LogInfoState extends State<LogInfo> {
                 child: Row(
                   children: [
                     Expanded(child: Container()),
-                    // ElevatedButton(
-                    //   onPressed: () {},
-                    //   child: Icon(Icons.menu),
-                    //   style: ButtonStyle(
-                    //     shape: MaterialStateProperty.all(CircleBorder()),
-                    //     padding: MaterialStateProperty.all(EdgeInsets.all(32)),
-                    //     backgroundColor: MaterialStateProperty.all(
-                    //         Colors.blue), // <-- Button color
-                    //     overlayColor:
-                    //         MaterialStateProperty.resolveWith<Color?>((states) {
-                    //       if (states.contains(MaterialState.pressed))
-                    //         return Colors.red; // <-- Splash color
-                    //     }),
-                    //   ),
-                    // ),
                     Column(
                       children: [
                         ElevatedButton(
@@ -92,6 +156,7 @@ class _LogInfoState extends State<LogInfo> {
                                 }).then((value) {
                               setState(() {
                                 _logInfoLogic.value += 1;
+                                run();
                               });
                               print('closed');
                             });
@@ -135,37 +200,23 @@ class _LogInfoState extends State<LogInfo> {
                 ),
               ),
             )
-
-            //   NumberPicker(
-            //     value: _currentValue,
-            //     minValue: 0,
-            //     maxValue: 100,
-            //     onChanged: (value) => setState(() => _currentValue = value),
-            //   ),
-            //   Text('Current value: $_currentValue'),
-
-            //   // Set Counter
-            //   Row(
-            //     children: [
-            //       AnimatedFlipCounter(
-            //         prefix: "Set ",
-            //         duration: Duration(milliseconds: 500),
-            //         value: _logInfoLogic.value, // pass in a value like 2014
-            //         textStyle: TextStyle(color: Colors.black, fontSize: 36),
-            //       ),
-            //       ElevatedButton(
-            //         onPressed: () {
-            //           setState(() {
-            //             _logInfoLogic.value += 1;
-            //           });
-            //         },
-            //         child: const Text('Inclrease'),
-            //       ),
-            //     ],
-            //   )
           ],
         ),
       ),
     );
   }
+
+  num? measureFn(datum, int? index) {
+    return 0;
+  }
+
+  String measureFnO(datum, int? index) {
+    return '0';
+  }
+}
+
+class SalesData {
+  SalesData(this.year, this.sales);
+  final String year;
+  final double sales;
 }
