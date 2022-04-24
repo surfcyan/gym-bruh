@@ -16,6 +16,20 @@ class _Profile extends State<Profile> {
   ProfileLogic _ProfileLogic = new ProfileLogic();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    run();
+  }
+
+  run() async {
+    await _ProfileLogic.connectHealth();
+    await _ProfileLogic.fetchSteps();
+    await _ProfileLogic.fetchDistance();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -38,6 +52,15 @@ class _Profile extends State<Profile> {
         TextWidget('Kartik Gautam'),
         TextWidget('171 cm'),
         TextWidget('71 Kg'),
+        ElevatedButton(
+          onPressed: () {
+            _ProfileLogic.connectHealth();
+          },
+          child: Text('Connect Health'),
+        ),
+        TextWidget(_ProfileLogic.steps.toString()),
+        TextWidget((_ProfileLogic.steps! * 0.03829).toString()),
+        TextWidget(_ProfileLogic.distance.toString()),
       ],
     );
   }
