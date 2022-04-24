@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_bruh/constants.dart';
 import 'package:gym_bruh/screens/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gym_bruh/screens/profile/profile.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -46,17 +47,47 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-        backgroundColor: Colors.white,
-        // Uncomment to change the background color
-        // backgroundColor: CupertinoColors.systemPink,
-        navigationBar: const CupertinoNavigationBar(
-          middle: Text(
-            'Gym Bruh',
-            style: TextStyle(color: primaryTextColor, fontSize: 24),
-          ),
-          backgroundColor: primaryBgColor,
+    return CupertinoApp(
+      home: CupertinoTabScaffold(
+        backgroundColor: CupertinoColors.systemYellow,
+        tabBar: CupertinoTabBar(
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home), tooltip: 'Home', label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person), tooltip: 'Profile', label: 'Home')
+          ],
+          backgroundColor: CupertinoColors.white,
         ),
-        child: Home());
+        tabBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return CupertinoPageScaffold(
+              child: Home(),
+              backgroundColor: CupertinoColors.white,
+              navigationBar: const CupertinoNavigationBar(
+                middle: Text(
+                  'Gym Bruh',
+                  style: TextStyle(color: primaryTextColor, fontSize: 24),
+                ),
+                backgroundColor: primaryBgColor,
+              ),
+            );
+          } else {
+            return CupertinoPageScaffold(
+              child: Profile(),
+              backgroundColor: CupertinoColors.white,
+              navigationBar: const CupertinoNavigationBar(
+                middle: Text(
+                  'Gym Bruh\'s Profile',
+                  style: TextStyle(color: primaryTextColor, fontSize: 24),
+                ),
+                backgroundColor: primaryBgColor,
+              ),
+            );
+          }
+        },
+        // child: Home(),
+      ),
+    );
   }
 }
