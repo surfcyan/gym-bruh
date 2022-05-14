@@ -47,7 +47,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    return MaterialApp(
       home: CupertinoTabScaffold(
         backgroundColor: CupertinoColors.systemYellow,
         tabBar: CupertinoTabBar(
